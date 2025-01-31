@@ -1,0 +1,19 @@
+.signInContainer{
+    background-image: url("../../components/Assets/img11.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.containerFields div{
+    @apply relative
+}
+.containerFields div input{
+    @apply w-full sm:w-[28em] md:w-[20em] lg:w-[28em] pl-7 md:pl-10 p-2 outline-none border-b text-xs md:text-sm
+}
+.containerFields div .signInIcon1{
+    @apply  absolute left-0 top-2 text-sm md:text-xl text-gray-400
+}
+.containerFields div .signInIcon2{
+    @apply absolute right-0 top-3 text-zinc-700
+}

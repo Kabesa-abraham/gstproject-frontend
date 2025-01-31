@@ -1,0 +1,8 @@
+@media (max-width:768px){
+    .navbarResponsive{
+      @apply absolute flex-col min-h-screen w-[80%] p-10 left-0 duration-200 top-[65px] bg-slate-300
+    }
+    .activer{
+        @apply -left-[85%] duration-200 z-50
+    }
+}
