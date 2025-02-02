@@ -3,7 +3,7 @@
     max-width: 18vw;
 }
 .option_container ul li{
-    @apply flex gap-3 items-center text-[#ffffffb6] px-5 cursor-pointer hover:border-l-4 border-l-blue-500 rounded-l-sm duration-100
+    @apply flex gap-3 items-center text-[#ffffffb6] px-5 cursor-pointer py-3 hover:bg-[#ffffff17] duration-100
 }
 .option_container .optionIcon{
     @apply text-2xl

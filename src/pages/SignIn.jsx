@@ -81,7 +81,7 @@ const SignIn = () => {
                             <input type="email" name="email" placeholder='Email...'
                                    value={userData.email} onChange={handleChangeData}
                             />
-                            { userData.email&& <HiX className='signInIcon2'/> }
+                            { userData.email&& <HiX className='signInIcon2' onClick={() => setUserData({...userData, email:""})} /> }
                         </div>
                         <div>
                             <FaKey className='signInIcon1' />
@@ -96,7 +96,7 @@ const SignIn = () => {
                     </div>
 
                     <button type='submit' className='w-full md:w-[65%] mx-auto bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium px-10 py-2 rounded-full
-                             text-xs md:text-sm hover:ring-4 ring-blue-100 duration-150 ' >
+                             text-xs md:text-sm hover:ring-4 ring-blue-100 duration-150 ' disabled={loading===true&&true} >
                         { loading===true? 'En attente' : 'Connection' }
                     </button>
 

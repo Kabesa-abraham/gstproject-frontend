@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdMenu, MdSettings } from 'react-icons/md'
 import { HiOutlineHome } from 'react-icons/hi'
 import './sidebar.css'
@@ -10,35 +10,59 @@ import { BiMessageDetail } from 'react-icons/bi'
 import {Link} from 'react-router-dom'
 
 const Sidebar = () => {
+
+  const [activeOption,setActiveOption] = useState("tableau")
+  const handleActive = (value) =>{
+    setActiveOption(value)
+  }
+
   return (
-    <nav className='sidebarContainer min-h-screen bg-[#292828] text-white ' >
-      <div className='flex flex-col gap-3 border-b border-zinc-400  ' >
+    <nav className={` sidebarContainer overflow-hidden min-h-screen bg-[#292828] text-white `} >
+      <div className='flex flex-col gap-3' >
         <div className='flex items-center gap-2' >
           <FaBookOpen className='w-12 h-8 px-2 py-2 bg-blue-500 text-xl text-white' />
           <p className='text-2xl font-bold '>ORAGON</p>
         </div>
-
-        <div className='flex flex-col gap-4 mb-3' >
-          <MdMenu className='text-2xl text-[#ffffffb6] ml-3' />
-          <Link to={'/'} ><button className='flex gap-3 items-center text-[#ffffffb6] border-l-4 border-l-blue-500 rounded-sm px-3 ' >
-            <HiOutlineHome className='text-3xl  '/> <p>Tableau de Bord</p>
-          </button></Link>
-        </div>
+        <MdMenu className='text-2xl text-[#ffffffb6] ml-3' />
       </div>
 
       <div className='option_container' >
-        <ul className='flex flex-col gap-7 mt-5' >
-          <Link to={'projet'} ><li> <FaFolderOpen className=' text-yellow-500 optionIcon' /> <p>Mes Projets</p> </li></Link>
-          <li> <FaCheckSquare className=' text-green-500 optionIcon' /> <p>Mes Taches</p> </li>
-          <li> <AiOutlineCalendar className=' text-purple-500 optionIcon'/> <p>Calendrier</p> </li>
+        <ul className='flex flex-col gap-1 mt-5' >
 
-          <li> <CgProfile className=' text-blue-500 optionIcon'/> <p>Mon Profil</p> </li>
-          <Link to={'setting'} ><li> <MdSettings className=' text-gray-400 optionIcon' /> <p>Parametres</p> </li></Link>
-          
-          <li> <FaUsers className=' text-blue-500 optionIcon' /> <p>Equipe</p> </li>
-          <li> <BiMessageDetail className=' text-gray-400 optionIcon' /> <p>Chat</p> </li>
+          <Link to={'/'} >
+          <li className={`border-b border-b-zinc-500 mb-5 ${activeOption==="tableau"&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('tableau')} >
+            <HiOutlineHome className=' text-3xl' /> <p>Tableau de Bord</p>
+          </li>
+          </Link>
 
-          <li className='mt-10' > <RiLogoutBoxLine className='text-[#c46c24] optionIcon' /> <p>Déconnexion</p> </li>
+          <Link to={'projet'} >
+            <li className={`${activeOption==='projet'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('projet')}  > 
+              <FaFolderOpen className=' text-yellow-500 optionIcon' /> <p>Mes Projets</p> </li>
+          </Link>
+
+          <Link to={"tache"} ><li className={`${activeOption==='Taches'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Taches')}> 
+            <FaCheckSquare className=' text-green-500 optionIcon' />  <p>Mes Taches</p> 
+          </li></Link>
+
+          <li className={`${activeOption==='Calendrier'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Calendrier')} > 
+            <AiOutlineCalendar className=' text-purple-500 optionIcon'/> <p>Calendrier</p> </li>
+
+          <Link to={'profile'} >
+            <li className={`${activeOption==='Profil'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Profil')}>
+             <CgProfile className=' text-blue-500 optionIcon'/> <p>Mon Profil</p> 
+          </li></Link>
+
+          <Link to={'setting'} ><li className={`${activeOption==='setting'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('setting')}> 
+            <MdSettings className=' text-gray-400 optionIcon' /> <p>Configuration</p> </li></Link>
+        
+          <li className={`${activeOption==='Equipe'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Equipe')}> 
+            <FaUsers className=' text-blue-500 optionIcon' /> <p>Equipe</p> </li>
+
+          <li className={`${activeOption==='Chat'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Chat')}> 
+            <BiMessageDetail className=' text-gray-400 optionIcon' /> <p>Chat</p> </li>
+
+          <li className='mt-10' > <RiLogoutBoxLine className='text-[#c46c24] optionIcon' />  <p>Déconnexion</p></li>
+
         </ul>
       </div>
     </nav>

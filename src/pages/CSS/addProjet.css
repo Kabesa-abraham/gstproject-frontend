@@ -1,0 +1,6 @@
+.addProjetContainer div{
+    @apply flex items-center gap-2 w-full
+}
+.addProjetContainer div p{
+    @apply max-w-24 w-full text-sm text-zinc-500 font-bold
+}
