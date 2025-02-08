@@ -117,7 +117,7 @@ const UpdateProject = () => {
  
   return (
     <section className='max-w-[93em] w-full mx-auto flex flex-col gap-4 px-5 md:px-10 py-3 overflow-hidden ' >
-        <div className='flex items-center gap-2 text-xl' >
+        <div className='flex items-center gap-2 text-lg' >
             <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Projets</span> </Link>
             <FaChevronRight className='text-zinc-400 text-sm' /> 
             <span className='font-bold text-[#4794d3] cursor-pointer' >Mettre à jour Projet</span>
@@ -157,10 +157,6 @@ const UpdateProject = () => {
             <div className='flex-1 max-w-2xl max-h-56 bg-zinc-50 p-10 flex flex-col gap-5' >
                 <div className='relative' >
                     <p className='text-sm font-semibold text-gray-500' >Email du nouveau membre</p>
-                    {/* <input type="email" placeholder="Entrez l'email du nouveau membre à ajouter "
-                           className={`w-full py-2 pl-3 bg-[#d4d4d42c] border border-zinc-200 outline-1 outline-[#9c45be33] mt-1 `}
-                           value={userEmail} onChange={(e) =>setUserEmail(e.target.value)}
-                    /> */}
                     <Select 
                         options={allUser}
                         value={selectedUser}

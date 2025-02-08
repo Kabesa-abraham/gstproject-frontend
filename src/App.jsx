@@ -11,6 +11,10 @@ import DashProfile from "./components/DashBoardComponent/dashProfile/DashProfile
 import AddProject from "./pages/AddProject"
 import UpdateProject from "./pages/UpdateProject"
 import ProjectPage from "./pages/ProjectPage"
+import AddTache from "./pages/AddTache"
+import UpdateTache from "./pages/UpdateTache"
+import TachePage from "./pages/TachePage"
+import DashCalendar from "./components/DashBoardComponent/dashCalendar/DashCalendar"
 
 function App(){
   return (
@@ -30,7 +34,16 @@ function App(){
 
           <Route path="setting" element={<DashSetting/>} />
 
-          <Route path="tache" element={<DashTache/>} />
+          <Route path="calendar" >
+            <Route index element={<DashCalendar/>} />
+          </Route>
+
+          <Route path="tache" >
+            <Route index element={<DashTache/>} />
+            <Route path="addTache" element={<AddTache/>} />
+            <Route path="updateTache/:tacheId" element={<UpdateTache/>} />
+            <Route path="theTask/:tacheId" element={<TachePage/>} />
+          </Route>
 
           <Route path="profile" element={<DashProfile/>} />
         </Route>

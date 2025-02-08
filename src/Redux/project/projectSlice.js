@@ -8,6 +8,7 @@ const initialState = {
     showMore:true
 };
 
+//mes projets crée
 export const fetchProjects = createAsyncThunk('projects/fetchProjects' , async(searchValue) =>{
     try {
         const res = await fetch(`/backend/projet/fetchProject?searchTerm=${searchValue}`);
@@ -29,6 +30,17 @@ export const handleShowMoreProjects = createAsyncThunk('projects/handleShowMoreP
     }
 })
 
+//les projets donc je participe
+export const fetchProjectsParticiped = createAsyncThunk('projects/fetchProjectsParticiped' , async(searchValue) =>{
+    try {
+        const res = await fetch(`/backend/projet/fetchProject?searchTerm=${searchValue}`);
+        const data = await res.json();
+        if(!res.ok){console.log(data.message)}
+        if(res.ok){return data.projectParticipated}
+    } catch (error) {
+        console.log(error)
+    }
+} )
 
 export const fetchTheProject = createAsyncThunk('projects/fetchTheProject' , async(projectId) =>{
     try {
@@ -55,7 +67,7 @@ const projectSlice = createSlice({
             state.error = null
             if(action.payload.length < 10){
                 state.showMore = false
-            }
+            }else{state.showMore = true}
         }),
         builder.addCase(fetchProjects.rejected , (state,action) =>{
             state.loading = false,
@@ -78,6 +90,7 @@ const projectSlice = createSlice({
         }) 
 
 
+
         builder.addCase(handleShowMoreProjects.pending , (state)=>{
             state.loading = true,
             state.error = ""
@@ -89,8 +102,25 @@ const projectSlice = createSlice({
             if(action.payload.length < 10){
                 state.showMore = false
             }
+            else{state.showMore = true}
         }),
         builder.addCase(handleShowMoreProjects.rejected , (state,action) =>{
+            state.loading = false,
+            state.error = action.payload
+        }),
+
+
+
+        builder.addCase(fetchProjectsParticiped.pending , (state) =>{
+            state.loading = true,
+            state.error = null
+        }),
+        builder.addCase(fetchProjectsParticiped.fulfilled , (state,action) =>{
+            state.projects = action.payload
+            state.loading = false,
+            state.error = null
+        }),
+        builder.addCase(fetchProjectsParticiped.rejected , (state,action) =>{
             state.loading = false,
             state.error = action.payload
         })

@@ -30,9 +30,9 @@ const Sidebar = () => {
         <ul className='flex flex-col gap-1 mt-5' >
 
           <Link to={'/'} >
-          <li className={`border-b border-b-zinc-500 mb-5 ${activeOption==="tableau"&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('tableau')} >
-            <HiOutlineHome className=' text-3xl' /> <p>Tableau de Bord</p>
-          </li>
+            <li className={`border-b border-b-zinc-500 mb-5 ${activeOption==="tableau"&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('tableau')} >
+              <HiOutlineHome className=' text-3xl' /> <p>Tableau de Bord</p>
+            </li>
           </Link>
 
           <Link to={'projet'} >
@@ -41,11 +41,12 @@ const Sidebar = () => {
           </Link>
 
           <Link to={"tache"} ><li className={`${activeOption==='Taches'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Taches')}> 
-            <FaCheckSquare className=' text-green-500 optionIcon' />  <p>Mes Taches</p> 
+            <FaCheckSquare className=' text-green-500 optionIcon' />  <p>Mes Tâches</p> 
           </li></Link>
 
-          <li className={`${activeOption==='Calendrier'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Calendrier')} > 
-            <AiOutlineCalendar className=' text-purple-500 optionIcon'/> <p>Calendrier</p> </li>
+          <Link to={'calendar'} ><li className={`${activeOption==='Calendrier'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Calendrier')} > 
+            <AiOutlineCalendar className=' text-purple-500 optionIcon'/> <p>Calendrier</p> 
+          </li></Link>
 
           <Link to={'profile'} >
             <li className={`${activeOption==='Profil'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Profil')}>

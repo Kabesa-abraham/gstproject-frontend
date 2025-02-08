@@ -62,8 +62,8 @@ const AddProject = () => {
   }
 
   return (
-    <section className='max-w-[93em] w-full mx-auto flex flex-col gap-4 px-5 md:px-10 py-10 overflow-hidden' >
-      <div className='flex items-center gap-2 text-xl' >
+    <section className='max-w-[93em] w-full mx-auto flex flex-col gap-4 px-5 md:px-10 py-3 overflow-hidden' >
+      <div className='flex items-center gap-2 text-lg' >
         <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Projets</span> </Link>
         <FaChevronRight className='text-zinc-400 text-sm' /> 
         <span className='font-bold text-[#4794d3] cursor-pointer' >Création projet</span>
