@@ -9,7 +9,7 @@ import persistStore from 'redux-persist/es/persistStore';
 const combineReducer = combineReducers({
     user:userReducer,
     project:projectReducer,
-    task:taskReducer
+    task:taskReducer,
 })
 
 const persistConfig= {

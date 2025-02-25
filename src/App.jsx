@@ -1,6 +1,5 @@
 import DashHome from "./components/DashBoardComponent/dashHome/DashHome"
 import DashProjet from "./components/DashBoardComponent/dashProjet/DashProjet"
-import DashSetting from "./components/DashBoardComponent/dashSetting/DashSetting"
 import DashBoard from "./pages/DashBoard"
 import Presentation from "./pages/Presentation"
 import {Routes,Route} from 'react-router-dom'
@@ -15,14 +14,19 @@ import AddTache from "./pages/AddTache"
 import UpdateTache from "./pages/UpdateTache"
 import TachePage from "./pages/TachePage"
 import DashCalendar from "./components/DashBoardComponent/dashCalendar/DashCalendar"
+import { Navigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 function App(){
+
+  const {currentUser} = useSelector(state=> state.user); //pour avoir le user actuellement connecté
+
   return (
     <div>
       <Routes>
-        <Route path="/presentation" element={<Presentation/>} />
+        <Route path="/presentation" element={currentUser ? <Navigate to="/"/> : <Presentation/> } />
         
-        <Route path="/" element={<DashBoard/>} >
+        <Route path="/" element={currentUser ?<DashBoard/>: <Navigate to="/presentation"/>} >
           <Route index element={<DashHome/>} />
           
           <Route path="projet">
@@ -31,8 +35,6 @@ function App(){
             <Route path="updateProject/:projectId" element={<UpdateProject/>} />
             <Route path="theProject/:projectId" element={<ProjectPage/>} />
           </Route>
-
-          <Route path="setting" element={<DashSetting/>} />
 
           <Route path="calendar" >
             <Route index element={<DashCalendar/>} />
@@ -46,6 +48,7 @@ function App(){
           </Route>
 
           <Route path="profile" element={<DashProfile/>} />
+          
         </Route>
 
         <Route path="/signIn" element={<SignIn/>} />

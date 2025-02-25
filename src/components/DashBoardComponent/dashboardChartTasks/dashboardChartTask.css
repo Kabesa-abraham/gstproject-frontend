@@ -1,0 +1,3 @@
+.chart_container div{
+    @apply min-w-80 w-full lg:w-[45%] bg-white p-4 rounded-lg
+}

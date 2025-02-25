@@ -1,73 +1,114 @@
-import React, { useState } from 'react'
-import { MdMenu, MdSettings } from 'react-icons/md'
-import { HiOutlineHome } from 'react-icons/hi'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { TbLayoutDashboard } from 'react-icons/tb'
 import './sidebar.css'
-import { FaBookOpen, FaCheckSquare, FaFolderOpen, FaUsers } from 'react-icons/fa'
-import { AiOutlineCalendar } from 'react-icons/ai'
+import { FaCheckSquare, FaFolderOpen } from 'react-icons/fa'
+import { AiOutlineCalendar, } from 'react-icons/ai'
 import { CgProfile } from 'react-icons/cg'
 import { RiLogoutBoxLine } from 'react-icons/ri'
-import { BiMessageDetail } from 'react-icons/bi'
 import {Link} from 'react-router-dom'
+import { signOutSuccess } from '../../../Redux/user/userSlice.js'
+import { useDispatch} from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import {ChevronFirst, ChevronLast} from 'lucide-react'
+
+const SidebarContext = createContext() //pour le contexte du sidebar
 
 const Sidebar = () => {
-
-  const [activeOption,setActiveOption] = useState("tableau")
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [activeOption,setActiveOption] = useState(localStorage.getItem('activeOption') || "dashboard") //pour l'option active
   const handleActive = (value) =>{
-    setActiveOption(value)
+    localStorage.setItem('activeOption',value);
+    setActiveOption(localStorage.getItem('activeOption'))
+  }
+ 
+  const handleSignOut = async() =>{ //pour se déconnecter
+    try {
+      await fetch('/backend/auth/signout',{method:'POST'});
+      dispatch(signOutSuccess());
+      navigate('/presentation');
+    } catch (error) {console.log(error)}
   }
 
+
+  const [expanded, setExpanded] = useState(true); //pour l'expansion du sidebar
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setExpanded(false);
+      } else {
+        setExpanded(true);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); //pour le responsive
+
   return (
-    <nav className={` sidebarContainer overflow-hidden min-h-screen bg-[#292828] text-white `} >
-      <div className='flex flex-col gap-3' >
-        <div className='flex items-center gap-2' >
-          <FaBookOpen className='w-12 h-8 px-2 py-2 bg-blue-500 text-xl text-white' />
-          <p className='text-2xl font-bold '>ORAGON</p>
+    <aside className='min-h-screen hidden md:block ' >
+      <nav className='h-full flex flex-col bg-[#222224] border-r shadow-sm ' >
+        <div className='p-4 pb-2 flex justify-between items-center mb-6' >
+          <div className={` overflow-hidden transition-all ${expanded? "flex items-center gap-1 ":'hidden'} `} >
+            <img src="/logo.png" alt="enterprise logo" className="w-12" />
+            <h3 className='font-grechen text-2xl text-white' >Oragon</h3>
+          </div>
+          <button onClick={() => setExpanded(!expanded)} className='hidden lg:inline-block p-1.5 rounded-lg text-zinc-50' >
+            {expanded ?<ChevronFirst size={20} /> : <ChevronLast size={20} /> }
+          </button>
         </div>
-        <MdMenu className='text-2xl text-[#ffffffb6] ml-3' />
-      </div>
 
-      <div className='option_container' >
-        <ul className='flex flex-col gap-1 mt-5' >
+        <SidebarContext.Provider value={{expanded}} >
+          <ul className='flex-1 flex flex-col gap-2 px-3' >
+            <SidebarItem icon={<TbLayoutDashboard className='text-3xl '/>} 
+                         text={"Tableau de Bord"} lien={"/"} active={activeOption==="dashboard"} setActive={()=>handleActive("dashboard")}
+                         alert />
 
-          <Link to={'/'} >
-            <li className={`border-b border-b-zinc-500 mb-5 ${activeOption==="tableau"&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('tableau')} >
-              <HiOutlineHome className=' text-3xl' /> <p>Tableau de Bord</p>
-            </li>
-          </Link>
+            <SidebarItem icon={<FaFolderOpen className='text-3xl text-yellow-500'/>}
+                         text={"Mes Projets"} lien={"projet"} active={activeOption==="projet"} setActive={()=>handleActive("projet")} />
 
-          <Link to={'projet'} >
-            <li className={`${activeOption==='projet'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('projet')}  > 
-              <FaFolderOpen className=' text-yellow-500 optionIcon' /> <p>Mes Projets</p> </li>
-          </Link>
+            <SidebarItem icon={<FaCheckSquare className='text-3xl text-green-500'/>}
+                         text={"Mes Tâches"} lien={"tache"} active={activeOption==="tache"} setActive={()=>handleActive("tache")}  />
 
-          <Link to={"tache"} ><li className={`${activeOption==='Taches'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Taches')}> 
-            <FaCheckSquare className=' text-green-500 optionIcon' />  <p>Mes Tâches</p> 
-          </li></Link>
+            <SidebarItem icon={<AiOutlineCalendar className='text-3xl text-purple-500'/>}
+                         text={"Calendrier"} lien={"calendar"} active={activeOption==="calendar"} setActive={()=>handleActive("calendar")}  />
 
-          <Link to={'calendar'} ><li className={`${activeOption==='Calendrier'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Calendrier')} > 
-            <AiOutlineCalendar className=' text-purple-500 optionIcon'/> <p>Calendrier</p> 
-          </li></Link>
+            <SidebarItem icon={<CgProfile className='text-3xl text-blue-500'/>}
+                         text={"Profile"} lien={"profile"} active={activeOption==="profile"} setActive={()=>handleActive("profile")}  />
 
-          <Link to={'profile'} >
-            <li className={`${activeOption==='Profil'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Profil')}>
-             <CgProfile className=' text-blue-500 optionIcon'/> <p>Mon Profil</p> 
-          </li></Link>
+            <div onClick={() =>handleSignOut()}>
+              <SidebarItem icon={<RiLogoutBoxLine className='text-3xl text-pink-700'/>} 
+                           text={"Déconnexion"} Style={{marginTop:"4em"}}/>
+            </div>
+          </ul>
+        </SidebarContext.Provider>
 
-          <Link to={'setting'} ><li className={`${activeOption==='setting'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('setting')}> 
-            <MdSettings className=' text-gray-400 optionIcon' /> <p>Configuration</p> </li></Link>
-        
-          <li className={`${activeOption==='Equipe'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Equipe')}> 
-            <FaUsers className=' text-blue-500 optionIcon' /> <p>Equipe</p> </li>
-
-          <li className={`${activeOption==='Chat'&&'bg-[#ffffff17]'}`} onClick={()=>handleActive('Chat')}> 
-            <BiMessageDetail className=' text-gray-400 optionIcon' /> <p>Chat</p> </li>
-
-          <li className='mt-10' > <RiLogoutBoxLine className='text-[#c46c24] optionIcon' />  <p>Déconnexion</p></li>
-
-        </ul>
-      </div>
-    </nav>
-  )
+      </nav>
+    </aside>
+  ) 
 }
 
 export default Sidebar
+
+
+export const SidebarItem = ({icon, text,alert,Style,lien,active,setActive}) => {
+  const {expanded} = useContext(SidebarContext)
+  return(
+    <Link to={lien&&lien} ><li onClick={setActive} className={`relative flex items-center text-white py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group
+       ${active? "bg-gradient-to-tr from-[#ffffff17] to-[#ffffff17] text-indigo-800" : "hover:bg-[#ffffff17] text-gray-600"} `} 
+       style={Style}
+       >
+
+      {icon}
+      <span className= {`overflow-hidden transition-all ${expanded ? "inline w-44 ml-3" : "w-0 hidden"}`} >{text}</span>
+      {alert&& <div className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "": "top-2"} `} ></div>}
+
+      {!expanded &&(
+         <p className={`z-50 w-32 absolute left-full rounded-md px-3 py-3 ml-7 bg-white text-indigo-800 text-sm
+           invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`} 
+         >{text}</p>
+      )}
+    </li> </Link>
+  )
+}

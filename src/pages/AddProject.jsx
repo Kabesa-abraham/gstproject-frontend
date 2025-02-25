@@ -62,44 +62,45 @@ const AddProject = () => {
   }
 
   return (
-    <section className='max-w-[93em] w-full mx-auto flex flex-col gap-4 px-5 md:px-10 py-3 overflow-hidden' >
-      <div className='flex items-center gap-2 text-lg' >
-        <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Projets</span> </Link>
-        <FaChevronRight className='text-zinc-400 text-sm' /> 
-        <span className='font-bold text-[#4794d3] cursor-pointer' >Création projet</span>
+    <section className='w-full ' >
+      <div className='max-w-6xl w-full px-2 sm:px-4 md:px-10 py-3 mx-auto flex flex-col gap-4 overflow-hidden' >
+        <div className='flex items-center gap-2 text-sm md:text-lg' >
+          <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Projets</span> </Link>
+          <FaChevronRight className='text-zinc-400 text-sm' /> 
+          <span className='font-bold text-[#4794d3] cursor-pointer' >Création projet</span>
+        </div>
+
+        <form className='w-full bg-zinc-50 p-3 sm:p-5 md:p-10 flex flex-col gap-5 addProjetContainer' onSubmit={HandleCreateProjet} >
+          <div className='relative flex flex-wrap md:flex-nowrap' >
+            <p>Nom projet</p>
+            <input type="text" placeholder='Entrez le nom du projet' 
+                  className={`w-full py-2 pl-3 bg-[#d4d4d42c] border border-zinc-200 outline-1 outline-[#4794d386] text-sm md:text-lg `}
+                  name="projectName" value={projectData.projectName} onChange={handleChange}
+            />
+            { projectData.projectName&& <HiX className='absolute right-2 top-10 md:top-3 text-lg text-zinc-500 cursor-pointer'
+              onClick={() => setProjectData({...projectData,projectName:""})} /> }
+          </div>
+
+          <div className='flex flex-wrap md:flex-nowrap' >
+            <p>Description</p>
+            <textarea className='w-full h-40 p-3 bg-[#d4d4d42c] border border-zinc-200 outline-[#4794d386] text-sm md:text-lg' 
+                      placeholder='Rédiger la description du projet' 
+                      name="projectDescription" value={projectData.projectDescription} onChange={handleChange}
+            ></textarea>
+          </div>
+
+          <button type='submit' className='btn bg-transparent hover:bg-[#3974ac] text-[#3974ac] hover:text-white hover:border-none transition-all
+              border-[2px] border-[#3974ac] ' disabled={loading===true&&true} >
+            {
+              loading===true? "En attent..." : "Créer le projet"
+            }
+          </button>
+
+          { error&& ( <p className='alert alert-error text-white flex items-center gap-3 p-1 px-3 text-sm rounded-full' >
+                      <MdAddAlert className='text-lg' /> {error}</p>
+          )}
+        </form>
       </div>
-
-      <form className='max-w-2xl bg-zinc-50 p-10 flex flex-col gap-5 addProjetContainer' onSubmit={HandleCreateProjet} >
-        <div className='relative' >
-          <p>Nom projet</p>
-          <input type="text" placeholder='Entrez le nom du projet' 
-                 className={`w-full py-2 pl-3 bg-[#d4d4d42c] border border-zinc-200 outline-1 outline-[#4794d386] `}
-                 name="projectName" value={projectData.projectName} onChange={handleChange}
-          />
-          { projectData.projectName&& <HiX className='absolute right-2 text-lg text-zinc-500 cursor-pointer'
-            onClick={() => setProjectData({...projectData,projectName:""})} /> }
-        </div>
-
-        <div>
-          <p>Description</p>
-          <textarea className='w-full h-40 p-3 bg-[#d4d4d42c] border border-zinc-200 outline-[#4794d386] ' 
-                    placeholder='Rédiger la description du projet' 
-                    name="projectDescription" value={projectData.projectDescription} onChange={handleChange}
-           ></textarea>
-        </div>
-
-        <button type='submit' className='btn bg-transparent hover:bg-[#3974ac] text-[#3974ac] hover:text-white hover:border-none transition-all
-            border-[2px] border-[#3974ac] ' disabled={loading===true&&true} >
-          {
-            loading===true? "En attent..." : "Créer le projet"
-          }
-        </button>
-
-        { error&& ( <p className='alert alert-error text-white flex items-center gap-3 p-1 px-3 text-sm rounded-full' >
-                    <MdAddAlert className='text-lg' /> {error}</p>
-        )}
-      </form>
-
       <ToastContainer/>
     </section>
   )

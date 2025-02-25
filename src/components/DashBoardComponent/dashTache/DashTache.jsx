@@ -7,12 +7,13 @@ import Select from 'react-select'
 import { handleShowMoreTaskes } from '../../../Redux/task/taskSlice.js'
 import Swal from "sweetalert2"
 import {ToastContainer,toast} from "react-toastify"
+import {FaSearch} from 'react-icons/fa'
 
 const theStyle = { //pour styliser le Select
   control: (provided) => ({
     ...provided,
-    backgroundColor: "#dccaec27",
-    border: "1px solid #32b5dd9c",
+    backgroundColor: "transparent",
+    border: "1px solid #50a0fc",
     borderRadius:"6px",
     padding: '4px 0 4px 11px',
     fontSize:"14px"
@@ -95,95 +96,106 @@ const DashTache = () => {
       }) }
 
   return ( 
-    <div className='max-w-[93em] min-h-screen w-full mx-auto px-10 py-3 overflow-hidden' >
-      <div className={`table-auto overflow-x-scroll lg:overflow-x-hidden flex flex-col rounded-md gap-3 w-full`} >
+    <div className='w-full mx-auto overflow-hidden' >
+      <div className={`max-w-7xl mx-auto px-2 lg:px-5 py-2 md:py-4 flex flex-col gap-3`} >
 
         <div className='flex items-center justify-between'>
-          <h2 className='text-3xl font-medium text-[#3f84c4]' >Mes Tâches</h2>
-          <Link to={'addTache'} ><button  className={`btn bg-transparent hover:bg-[#3974ac] text-[#3974ac] hover:text-white hover:border-none transition-all
-              border-[2px] border-[#3974ac]`} > 
+          <h2 className=' text-sm sm:text-xl md:text-3xl font-medium text-[#3f84c4]' >Mes Tâches</h2>
+          <Link to={'addTache'} ><button  className={`min-w-[125px] px-2 py-2 md:py-3 flex items-center gap-1 hover:bg-[#633cac] text-[#633cac] hover:text-white transition-all
+                border-[2px] border-[#633cac] text-xs md:text-sm font-medium rounded-lg`} > 
             <AiOutlinePlusCircle className='text-lg' />Créer Une Tâche
           </button></Link>
         </div>
 
-        <div className='w-full flex items-center gap-5' >
-          <div className='w-full flex items-center' >
-            <select value={taskProjet} onChange={(e)=>setTaskProjet(e.target.value)} 
-                    className='p-2 text-sm font-bold bg-transparent outline-none text-blue-500 mr-2 '  
-             > {/*pour choisir entre task ou option */}
-              <option value="task" className='text-blue-500' >tâche</option>
-              <option value="projet" className='text-pink-500' >projet</option>
-            </select>
-            {
-              taskProjet==='task' ?
-              <div className='w-full relative'> 
-                <input type="text" placeholder='Rechercher une tâche spécifique' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)}
-                      className='bg-[#dccaec27] w-full outline-none py-3 pl-5 text-sm rounded-md border border-blue-300' />
-                <AiOutlineSearch className='text-xl text-blue-400 cursor-pointer absolute right-4 top-3 ' />
-              </div> 
-              :
-              <Select placeholder="Rechercher un projet" className='w-full' styles={theStyle}
-                      options={allProject}
-                      value={allProject.find(p => p.value === projectId)}
-                      onChange={handleSelectedProjectChange}
-                      onInputChange={(value) =>{
-                          fetchProjects(value)
-                      }}
-                      isClearable
-                      noOptionsMessage={() =>"Pas de projet"} 
-               />
-            }
-          </div>
+        <div className="bg-[#7db9f12d] shadow-sm rounded-lg p-2 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+            
+            {/* Sélection de tâche */}
+            <div className="relative">
+                <select value={taskProjet} onChange={(e)=>setTaskProjet(e.target.value)} 
+                        className='p-2 text-sm font-bold bg-transparent outline-none text-blue-500 mr-2 '  
+                > 
+                  <option value="task" className='text-blue-500' >tâche</option>
+                  <option value="projet" className='text-pink-500' >projet</option>
+                </select>
+            </div>
 
-          <div className='w-full flex items-center gap-2 ' >
-            <label className='font-bold text-sm text-zinc-500' >Triez par Status: </label>
-            <select className='select select-bordered w-full max-w-[160px] bg-zinc-100 text-gray-600 font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-200 ' 
-                    defaultValue={""}  onChange={(e)=> setStatus(e.target.value)} >
-              <option value="" >Non catégorisé</option>
-              <option value="A faire">A faire</option>
-              <option value="En cours">En cours</option>
-              <option value="Terminé">Terminé</option>
-            </select>
-          </div>
+            {/* Champ de recherche avec icône */}
+            <div className="relative">
+              {
+                taskProjet==='task' ?
+                  <div className='w-full relative'> 
+                    <input type="text" placeholder='Rechercher une tâche spécifique' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)}
+                          className='bg-transparent w-full outline-none py-3 pl-5 text-sm rounded-md border border-[#50a0fc]' />
+                      <AiOutlineSearch className='text-xl text-blue-400 cursor-pointer absolute right-4 top-3 ' />
+                  </div> 
+                  :
+                  <Select placeholder="Rechercher un projet" className='w-full' styles={theStyle}
+                          options={allProject}
+                          value={allProject.find(p => p.value === projectId)}
+                          onChange={handleSelectedProjectChange}
+                          onInputChange={(value) =>{
+                              fetchProjects(value)
+                          }}
+                          isClearable
+                          noOptionsMessage={() =>"Pas de projet"} 
+                  />
+              }
+            </div>
 
+            {/* Filtre par statut */}
+            <div className='w-full flex items-center gap-2 ' >
+              <label className='font-medium text-xs md:text-sm text-zinc-500' >Triez par Status: </label>
+              <select className='select select-bordered w-full max-w-[160px] bg-transparent text-gray-600 font-medium text-xs md:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-200 ' 
+                      defaultValue={""}  onChange={(e)=> setStatus(e.target.value)} >
+                <option value="" >Non catégorisé</option>
+                <option value="A faire">A faire</option>
+                <option value="En cours">En cours</option>
+                <option value="Terminé">Terminé</option>
+              </select>
+            </div>
+
+          </div>
         </div>
 
         { loading === true? (
           <span className='w-full text-center text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
           ) : 
-          <table className="table">
-              {/* head */}
-              <thead className='border-b-[2px] text-zinc-700 bg-[#388ddd3d]' >
-                <tr className={`text-sm `} >
-                  <th>Tâche</th>
-                  <th>Projet Assigné</th>
-                  <th>Status</th>
-                  <th>Fin du tâche</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody className='text-sm' >
-                {/* row  */}
+          <div className='table-auto overflow-x-scroll md:overflow-x-hidden rounded-md' >
+            <table className="table">
+                {/* head */}
+                <thead className='border-b-[2px] text-zinc-700 bg-[#388ddd3d]' >
+                  <tr className={`text-sm `} >
+                    <th>Tâche</th>
+                    <th>Projet Assigné</th>
+                    <th>Status</th>
+                    <th>Fin du tâche</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody className='text-sm' >
+                  {/* row  */}
 
-                {
-                  tasks && tasks.map((item,i) =>(
-                    <tr key={i} className='h-14 hover:bg-[#c4c4c427] duration-100 border-b border-b-[#7c7b7b31]'>
-                      <td className='min-w-[120px] max-w-[200px] overflow-hidden' >{item.taskName}</td>
-                      <td className='min-w-[250px] max-w-[320px]' ><p className='line-clamp-3'>{item.projectId.projectName}</p></td>
-                      <td className='font-semibold text-yellow-700' >{item.status }</td>
-                      <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{new Date(item.deadLine).toLocaleDateString()}</td>
-                      <td>
-                        <div className='flex gap-3 lg:gap-5 text-sm lg:text-xl items-center' >
-                          <Link to={`updateTache/${item._id}`} ><AiFillEdit className='cursor-pointer text-blue-600' /></Link>
-                          <Link to={`theTask/${item._id}`} ><AiFillEye  className='cursor-pointer'/></Link>
-                          <AiFillDelete className='cursor-pointer text-pink-600' onClick={() =>mySwalAlertDelete2(item._id)} />
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-          </table>
+                  {
+                    tasks && tasks.map((item,i) =>(
+                      <tr key={i} className='h-14 hover:bg-[#c4c4c427] duration-100 border-b border-b-[#7c7b7b31]'>
+                        <td className='min-w-[120px] max-w-[200px] overflow-hidden' >{item.taskName}</td>
+                        <td className='min-w-[200px] max-w-[320px]' ><p className='line-clamp-3'>{item.projectId.projectName}</p></td>
+                        <td className='font-semibold text-yellow-700' >{item.status }</td>
+                        <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{new Date(item.deadLine).toLocaleDateString()}</td>
+                        <td>
+                          <div className='flex gap-3 lg:gap-5 text-sm lg:text-xl items-center' >
+                            <Link to={`updateTache/${item._id}`} ><AiFillEdit className='cursor-pointer text-blue-600' /></Link>
+                            <Link to={`theTask/${item._id}`} ><AiFillEye  className='cursor-pointer'/></Link>
+                            <AiFillDelete className='cursor-pointer text-pink-600' onClick={() =>mySwalAlertDelete2(item._id)} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+            </table>
+          </div>
         }
         {
         showMore && (

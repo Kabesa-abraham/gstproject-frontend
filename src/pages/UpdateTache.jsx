@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { FaChevronRight } from 'react-icons/fa'
-import { HiX } from 'react-icons/hi'
 import { Link, useParams } from 'react-router-dom'
 import Select from 'react-select'
 import {useDispatch,useSelector} from 'react-redux'
@@ -29,6 +28,11 @@ const UpdateTache = () => {
 
     const updateTheTask = async(e) =>{
         e.preventDefault();
+        if(Object.keys(taskData).length === 0){ //donc si il n'ya rien dans taskData
+            dispatch(updateTaskFailed("Aucun changement n'a été fait"));
+            toast.error(error,{draggable:true,autoClose:3000,position:'top-center'})
+            return;
+        }
         try {
             dispatch(updateTaskStart())
             const res = await fetch(`/backend/task/updateTask/${tacheId}`,{
@@ -55,12 +59,6 @@ const UpdateTache = () => {
         }
     }
 
-   
-
-    console.log("hello",theTask)
-    console.log("useState",taskData)
-   // console.log(theTask.projectId?.projectName)
-
     //Pour rechecher le projet
     const [allProject,setAllProject] = useState([]);
     const fetchProject = async(query = "") =>{
@@ -82,14 +80,14 @@ const UpdateTache = () => {
 
   return (
     <section className='w-full' >
-        <div className='max-w-7xl mx-auto px-3 py-3 md:px-10 w-full flex flex-col gap-4 ' >
+        <div className='max-w-6xl mx-auto px-3 py-3 md:px-10 w-full flex flex-col gap-4 ' >
             <div className='flex items-center gap-2 text-lg' >
                 <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Tâches</span> </Link>
                 <FaChevronRight className='text-zinc-400 text-sm' /> 
                 <span className='font-bold text-[#4794d3] cursor-pointer' >Mise à jour du Tâche</span>
             </div>
 
-            <form className='max-w-2xl bg-zinc-50 p-6 flex flex-col gap-2 text-sm' onSubmit={updateTheTask}>
+            <form className='w-full bg-zinc-50 p-6 flex flex-col gap-2 text-sm' onSubmit={updateTheTask}>
                 <div className='relative' >
                     <p className='font-medium text-gray-500' >Nom du Tâche</p>
                     <input type="text" placeholder='Entrez le nom du projet' 

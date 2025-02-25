@@ -6,6 +6,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { fetchProjects,handleShowMoreProjects,fetchProjectsParticiped } from '../../../Redux/project/projectSlice.js'
 import Swal from 'sweetalert2'
 import {ToastContainer, toast} from 'react-toastify'
+import {Loader, Loader2} from "lucide-react"
 
 const DashProjet = () => {
 
@@ -64,89 +65,100 @@ const DashProjet = () => {
   }
 
   return (
-    <div className='max-w-[93em] w-full mx-auto px-10 py-3 overflow-hidden' >
-    <div className={`table-auto overflow-x-scroll lg:overflow-x-hidden flex flex-col rounded-md gap-3 w-full`} >
+    <div className=' w-full mx-auto overflow-hidden' >
+      <div className={`max-w-7xl mx-auto px-2 lg:px-5 py-2 md:py-4 flex flex-col gap-3`} >
 
-      <div className='flex items-center justify-between'>
-        <h2 className='text-3xl font-medium text-[#3f84c4]' >Mes Projets</h2>
-        <div className='flex items-center flex-wrap gap-2' >
-          <Link to={"addProject"} ><button  className={`btn bg-transparent hover:bg-[#3974ac] text-[#3974ac] hover:text-white hover:border-none transition-all
-              border-[2px] border-[#3974ac]`} > 
-            <AiOutlinePlusCircle className='text-lg' />Créer Projet
-          </button></Link>
+        <div className='flex items-center justify-between gap-5'>
+          <h2 className='text-sm sm:text-xl md:text-3xl font-medium text-[#3f84c4]' >Mes Projets</h2>
 
-          <Link to={"../tache/AddTache"} ><button  className={`btn bg-transparent hover:bg-[#633cac] text-[#633cac] hover:text-white hover:border-none transition-all
-              border-[2px] border-[#633cac]`} > 
-            <MdAdd className='text-lg' />Créer une Tâshe
-          </button></Link>
+          <div className='flex items-center gap-2' >
+            <Link to={"addProject"} ><button  className={`min-w-[105px] px-2 py-2 md:py-3 flex items-center gap-1 hover:bg-[#3974ac] text-[#3974ac] font-medium hover:text-white transition-all
+                border-[2px] border-[#3974ac] text-xs md:text-sm rounded-lg `} > 
+              <AiOutlinePlusCircle className='text-sm md:text-lg' />Créer Projet
+            </button></Link>
+
+            <Link to={"../tache/AddTache"} ><button  className={`min-w-[125px] px-2 py-2 md:py-3 flex items-center gap-1 hover:bg-[#633cac] text-[#633cac] hover:text-white transition-all
+                border-[2px] border-[#633cac] text-xs md:text-sm font-medium rounded-lg `} > 
+              <MdAdd className='text-sm md:text-lg' />Créer une Tâche
+            </button></Link>
+          </div>
         </div>
-      </div>
 
-      <div className='w-full flex'>
-        <div className='w-full relative' >
-          <input type="text" placeholder='Rechercher un Projet' value={theSearchValue} onChange={(e) =>setTheSearchValue(e.target.value)}
-                  className='bg-[#c691f727] w-full sm:w-[75%] outline-none py-3 pl-5 text-sm rounded-md' />
-            <AiOutlineSearch className='text-xl text-zinc-500 cursor-pointer absolute top-3 left-[70%] lg:left-[72%] ' />
+        <div className="bg-[#7db9f12d] shadow-sm rounded-lg p-2 w-full">
+          <div className="w-full flex flex-col md:flex-row gap-1 md:gap-4 md:items-center ">
+            <div className='w-full relative' >
+              <input type="text" placeholder='Rechercher un Projet' value={theSearchValue} onChange={(e) =>setTheSearchValue(e.target.value)}
+                    className='bg-transparent border border-[#3e98ec6c] w-full md:w-[75%] outline-none py-3 pl-5 text-sm rounded-md' />
+              <AiOutlineSearch className='text-xl text-zinc-500 cursor-pointer absolute top-3 right-[3%] md:right-[26%] ' />
+            </div>
+
+            <div className="relative">
+              <select className='text-sm text-zinc-700 font-semibold appearance-none w-full bg-white px-4 py-2  rounded-lg border border-gray-300
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer' defaultValue={""} onChange={(e)=>setTypeProjects(e.target.value)}  >
+                <option value="">Mes projets</option>
+                <option value="paticipated">Projets dont vous participez </option>
+              </select>
+            </div>
+          </div>
         </div>
-        <select className='bg-transparent text-sm text-zinc-700 font-semibold outline-none' defaultValue={""} onChange={(e)=>setTypeProjects(e.target.value)}  >
-          <option value="">Mes projets</option>
-          <option value="paticipated">Projets dont vous participez </option>
-        </select>
-      </div>
 
-        { loading === true? (
-          <span className='w-full text-center text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
-          ) : 
-        <table className="table">
-            {/* head */}
-            <thead className='border-b-[2px] text-zinc-700 bg-[#388ddd3d]' >
-              <tr className={`text-sm `} >
-                <th>Nom Projet</th>
-                <th>Description</th>
-                {typeProjects==="paticipated"&& <th>Créateur</th>}
-                <th>Membres</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody className='text-sm' >
-              {/* row  */}
-          
-              {
-                projects && projects.map((item,i) =>(
-                  <tr key={i} className='h-14 hover:bg-[#c4c4c427] duration-100 border-b border-b-[#7c7b7b31]'>
-                    <td className='min-w-[120px] max-w-[200px] overflow-hidden' >{item.projectName}</td>
-                    <td className='min-w-[250px] max-w-[320px]' ><p className='line-clamp-3'>{item.projectDescription}</p></td>
-                    {typeProjects==="paticipated"&& <td className='text-blue-500 font-semibold' >{item.createur.name}</td>}
-                    <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{item.membres.map((item,i) =>(
-                      <p key={i} >{item.name},</p>
-                      ))}
-                    </td>
-                    <td>
-                      <div className='flex gap-3 lg:gap-5 text-sm lg:text-xl items-center' >
-                        {typeProjects===""&& <Link to={`updateProject/${item._id}`} ><AiFillEdit className='cursor-pointer text-blue-600' /></Link>}
+          { loading === true? (
+            <span className='w-full text-center text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
+            ) : 
+            <div className='table-auto overflow-x-scroll md:overflow-x-hidden  rounded-md ' >
+              <table className="table overflow-x-scroll">
+                
+                  <thead className='border-b-[2px] text-zinc-700 bg-[#388ddd3d]' >
+                    <tr className={`text-sm `} >
+                      <th>Nom Projet</th>
+                      <th>Description</th>
+                      {typeProjects==="paticipated"&& <th>Créateur</th>}
+                      <th>Membres</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className='text-sm' >
+              
+                
+                    {
+                      projects && projects.map((item,i) =>(
+                        <tr key={i} className='h-14 hover:bg-[#c4c4c427] duration-100 border-b border-b-[#7c7b7b31]'>
+                          <td className='min-w-[120px] max-w-[200px] overflow-hidden' ><p className='line-clamp-2' >{item.projectName}</p></td>
 
-                        <Link to={`theProject/${item._id}`} ><AiFillEye  className={`cursor-pointer`}/></Link>
+                          <td className='min-w-[200px] max-w-[320px]' ><p className='line-clamp-3'>{item.projectDescription}</p></td>
+                          {typeProjects==="paticipated"&& <td className='text-blue-500 font-semibold' >{item.createur.name}</td>}
+                          <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{item.membres.map((item,i) =>(
+                            <p key={i} >{item.name},</p>
+                            ))}
+                          </td>
+                          <td>
+                            <div className='flex gap-3 lg:gap-5 text-sm lg:text-xl items-center' >
+                              {typeProjects===""&& <Link to={`updateProject/${item._id}`} ><AiFillEdit className='cursor-pointer text-blue-600' /></Link>}
 
-                        {typeProjects===""&& <AiFillDelete className='cursor-pointer text-pink-600' onClick={()=>mySwalAlertDelete(item._id)} />}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              }
-          </tbody>
-        </table>
-      }
-      {
-        showMore && (
-          <button className='w-full rounded-md text-xs font-bold py-1 text-black bg-[#46a0cab9] ' onClick={()=>dispatch(handleShowMoreProjects(projects.length))} >
-            Voir Plus
-          </button>
-        )
-      }
+                              <Link to={`theProject/${item._id}`} ><AiFillEye  className={`cursor-pointer`}/></Link>
+
+                              {typeProjects===""&& <AiFillDelete className='cursor-pointer text-pink-600' onClick={()=>mySwalAlertDelete(item._id)} />}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    }
+                </tbody>
+              </table>
+            </div>
+        }
+        {
+          showMore && (
+            <button className='w-full rounded-md text-xs font-bold py-1 text-black bg-[#46a0cab9] ' onClick={()=>dispatch(handleShowMoreProjects(projects.length))} >
+              Voir Plus
+            </button>
+          )
+        }
 
     </div>
     <ToastContainer/>
 </div>
+
 )
 }
 

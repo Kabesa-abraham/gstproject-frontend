@@ -78,14 +78,14 @@ const AddTache = () => {
 
   return (
     <section className='w-full' >
-        <div className='max-w-7xl mx-auto px-3 py-3 md:px-10 w-full flex flex-col gap-4 ' >
-            <div className='flex items-center gap-2 text-lg' >
+        <div className='max-w-6xl mx-auto px-3 py-3 md:px-10 w-full flex flex-col gap-4 ' >
+            <div className='flex items-center gap-2 text-sm md:text-lg' >
                 <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Tâches</span> </Link>
                 <FaChevronRight className='text-zinc-400 text-sm' /> 
                 <span className='font-bold text-[#4794d3] cursor-pointer' >Création Tâche</span>
             </div>
 
-            <form className='max-w-2xl bg-zinc-50 p-6 flex flex-col gap-2 text-sm' onSubmit={handleCreateTask}>
+            <form className='w-full bg-zinc-50 p-6 flex flex-col gap-2 text-sm' onSubmit={handleCreateTask}>
                 <div className='relative' >
                     <p className='font-medium text-gray-500' >Nom du Tâche</p>
                     <input type="text" placeholder='Entrez le nom du projet' 

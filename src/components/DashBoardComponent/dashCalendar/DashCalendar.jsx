@@ -12,9 +12,10 @@ const theStyle = { //pour styliser le Select
     backgroundColor: "#dccaec27",
     border: "1px solid #32b5dd9c",
     borderRadius:"6px",
-    padding: '4px 0 4px 11px',
-    fontSize:"14px",
-    width:'400px'
+    padding: '2px 0 2px 3px',
+    fontSize:"13px",
+    width:'100%',
+    minWidth:'200px',
   })
 }
 
@@ -30,7 +31,7 @@ const DashCalendar = () => {
       const res = await fetch("/backend/task/fetchTaskforProjectsMember");
       const data = await res.json();
       if(res.ok){
-        setTaskes(data);
+        setTaskes(data.taskesAssigned);
       }
     } catch (error) {
       console.log(error)}
@@ -64,7 +65,7 @@ const DashCalendar = () => {
   useEffect(() =>{ takeTaskesOfProjectFinded(); },[projectSelected]) //s'éxecutera si il ya modification de projectSelected 
 
   //Transformer les tâches en formant "fullcalendar" pour l'afficher
-  const formattedTaskes = taskes.map((task) =>({
+  const formattedTaskes = taskes&& taskes.map((task) =>({
     id:task._id,
     title:task.taskName,
     start:task.createdAt,
@@ -84,29 +85,31 @@ const DashCalendar = () => {
   }}
 
   return (
-    <div className='w-full mx-auto px-3 md:px-5 my-3 flex flex-col gap-5' >
-      <div className='flex items-center gap-3 md:gap-5 w-full z-50 ' >
-        <p className='text-lg text-blue-500 font-semibold' >Mon Calendrier</p>
+    <div className='w-full h-screen overflow-hidden mx-auto px-3 md:px-5 my-3 flex flex-col gap-5' >
+      <div className='flex items-center justify-between gap-5 w-full z-50 flex-wrap' >
+        <p className='text-xs sm:text-sm md:text-lg text-blue-500 font-semibold' >Mon Calendrier</p>
 
-        <Select styles={theStyle} placeholder="Rechercher vos projets"
-                options={allProject}
-                value={projectSelected}
-                onChange={setProjectSelected}
-                onInputChange={(value) =>{
-                  fetchSomeProjects(value)
-                }}  
-                noOptionsMessage={() =>"Pas de projet"} 
-                isClearable
-        />
+        <div className='flex items-center flex-wrap gap-2' >
+          <Select styles={theStyle} placeholder="Rechercher vos projets"
+                  options={allProject}
+                  value={projectSelected}
+                  onChange={setProjectSelected}
+                  onInputChange={(value) =>{
+                    fetchSomeProjects(value)
+                  }}  
+                  noOptionsMessage={() =>"Pas de projet"} 
+                  isClearable
+          />
 
-        <select value={view} onChange={handleChangeView} className='text-sm bg-transparent font-medium outline-none border-none' >
-            <option value="dayGridMonth">Mois</option>
-            <option value="timeGridWeek">Semaine</option>
-            <option value="timeGridDay">Jour</option>
-            <option value="listWeek">Liste par Semaine</option>
-            <option value="listMonth">Liste par Mois </option>
-            <option value="listDay">Liste par Jour </option>
-        </select>
+          <select value={view} onChange={handleChangeView} className='text-sm bg-transparent font-medium outline-none border-none' >
+              <option value="dayGridMonth">Mois</option>
+              <option value="timeGridWeek">Semaine</option>
+              <option value="timeGridDay">Jour</option>
+              <option value="listWeek">Liste par Semaine</option>
+              <option value="listMonth">Liste par Mois </option>
+              <option value="listDay">Liste par Jour </option>
+          </select>
+        </div>
       </div>
       
       <FullCalendar

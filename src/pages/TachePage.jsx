@@ -30,14 +30,14 @@ const TachePage = () => {
       }
 
   return (
-    <section className='max-w-[93em] w-full mx-auto flex flex-col gap-4 px-5 md:px-10 py-4 overflow-hidden ' >
-        <div className='flex items-center gap-2 text-xl' >
+    <section className='max-w-5xl w-full mx-auto flex flex-col gap-4  px-2 sm:px-4 md:px-8 py-3 overflow-hidden ' >
+        <div className='flex items-center gap-2 text-sm sm:text-lg md:text-xl' >
             <Link to={'..'} ><span className='text-zinc-500 cursor-pointer' >Mes Taches</span> </Link>
             <FaChevronRight className='text-zinc-400 text-sm' /> 
             <span className='font-bold text-[#4794d3] cursor-pointer' >Tâche</span>
         </div>
     
-        <div className='max-w-3xl bg-zinc-100 p-3 border border-blue-300 rounded-lg flex flex-col gap-3 '  >
+        <div className='w-full bg-zinc-100 p-3 border border-blue-300 rounded-lg flex flex-col gap-3 '  >
             <h2 className='text-[17px] font-bold text-center text-zinc-700 ' >{theTask?.taskName}</h2>
             {
               theTask.taskDescription? <p className='text-gray-600 text-[15px] ' >{theTask.taskDescription}</p> 
@@ -45,11 +45,11 @@ const TachePage = () => {
             }
     
             <div className='mt-1 text-sm text-gray-500 mx-7' >
-                <div className='flex items-center gap-3 justify-between' >
-                    <p className='flex items-center gap-2 my-4' >
+                <div className='flex items-center gap-2 md:gap-5 justify-between flex-wrap md:flex-nowrap' >
+                    <p className='flex items-center gap-2 md:my-4' >
                         <FaCalendar className='text-purple-500 text-xl '/> Date de création :  {new Date(theTask?.createdAt).toLocaleDateString()}
                     </p>
-                    <p className='flex items-center gap-2 my-4' >
+                    <p className='flex items-center gap-2 my-2 md:my-4' >
                         <FaCalendar className='text-red-500 text-xl '/> Date Limite :  {new Date(theTask?.deadLine).toLocaleDateString()}
                     </p>
                 </div>
@@ -90,7 +90,7 @@ const TachePage = () => {
                         <p>Nom du projet :</p>
                     </span>
                     <div className='flex gap-2 items-center' >
-                        <p className='text-lg text-zinc-700 font-bold uppercase' >{theTask.projectId?.projectName}</p>
+                        <p className='text-xs sm:text-sm md:text-lg text-zinc-700 font-bold uppercase' >{theTask.projectId?.projectName}</p>
                         <Link to={`../../projet/theProject/${theTask.projectId?._id}`} ><details></details></Link>
                     </div>
                 </div>

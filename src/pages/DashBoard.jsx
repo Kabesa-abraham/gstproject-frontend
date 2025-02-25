@@ -8,7 +8,7 @@ const DashBoard = () => {
     <div className='flex min-h-screen' >
       <Sidebar/>
 
-      <div className='flex-1 overscroll-y-auto bg-[#eeeeee] flex flex-col ' >
+      <div className='w-full bg-[#eeeeee] ' > {/* w-full*/}
         <DashHeader/>
         <Outlet/>
       </div>

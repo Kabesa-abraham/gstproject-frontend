@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './CSS/signInUp.css'
 import img12 from '../components/Assets/img12.png'
-import img13 from '../components/Assets/img13.png'
+import img13 from '/avatar.png'
 import { HiEye, HiEyeOff, HiOutlineMailOpen, HiUser, HiX } from 'react-icons/hi'
-import { FaKey } from 'react-icons/fa'
+import { FaArrowLeft, FaKey } from 'react-icons/fa'
 import {MdAddAlert} from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import {signInFaillure,signInStart,signInSuccess} from '../Redux/user/userSlice.js'
 import {useDispatch, useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom';
 
 const SignUp = () => {
 
@@ -94,7 +94,6 @@ const SignUp = () => {
         }
     }
 
-  console.log(userData);
   return (
     <section className='w-full min-h-screen flex justify-center items-center signInContainer'>
         <div className='max-w-5xl bg-white p-6 md:p-10 flex items-center gap-5 lg:gap-10 ' >
@@ -102,17 +101,19 @@ const SignUp = () => {
                 <img src={img12} alt="" className='min-w-[20em] w-[25em]' />
             </div>
 
-            <div className='flex-1 flex flex-col gap-5 items-center' >
+            <div className='relative flex-1 flex flex-col gap-2 md:gap-5 items-center' >
+                <Link to={'/presentation'}><FaArrowLeft className='absolute -top-3 -right-3 md:-top-7 md:-right-6 text-sm text-gray-400 cursor-pointer' /></Link>
+                
                 <h1 className='text-lg md:text-xl font-bold text-zinc-400 ' >Créer un Compte maintenant</h1>
 
-                <form action="" className='flex flex-col gap-9' onSubmit={handleSignUp} >
+                <form action="" className='flex flex-col gap-3 md:gap-9' onSubmit={handleSignUp} >
 
                     <label className='mx-auto' onClick={() => imgRef.current.click()} >
                         <img src={urlImg? urlImg : img13} alt="" className='w-32 h-32 object-cover bg-[#ccc9c94f] p-1 rounded-full' />
                     </label>
                     <input type="file" accept='image/*' ref={imgRef} onChange={handleChangeImg} hidden />
 
-                    <div className='flex flex-col gap-7 containerFields' >
+                    <div className='flex flex-col gap-3 md:gap-7 containerFields' >
                         <div>
                             <HiUser className='signInIcon1'/>
                             <input type="text" name="name" placeholder='Nom...' 
