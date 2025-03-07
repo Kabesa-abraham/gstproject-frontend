@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import backgroundImg from '../../Assets/img11.jpg'
-import userImg from '../../Assets/img13.png'
-import {MdClose, MdEdit, MdError} from 'react-icons/md'
+import {MdClose, MdEdit} from 'react-icons/md'
 import './dashProfile.css'
 import {useSelector, useDispatch} from 'react-redux'
 import { updateUserFaillure,updateUserStart,updateUserSuccess,signOutSuccess,deleteFailuer,deleteStart,deleteSuccess } from '../../../Redux/user/userSlice.js'
@@ -9,6 +8,7 @@ import { HiEye, HiEyeOff } from 'react-icons/hi'
 import {ToastContainer,toast} from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import backendUrl from '../../../utils/backendUrl.js'
 
 const DashProfile = () => {
 
@@ -39,10 +39,11 @@ const DashProfile = () => {
     }
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/backend/auth/updateUser/${currentUser._id}`,{//j'envois l'_id du user que j'ai fait persister grâce à redux-persist
+      const res = await fetch(`${backendUrl}/auth/updateUser/${currentUser._id}`,{//j'envois l'_id du user que j'ai fait persister grâce à redux-persist
         method:'PUT',
         headers:{'Content-Type': 'application/json'},
-        body:JSON.stringify(userData)
+        body:JSON.stringify(userData),
+        credentials: 'include',
       })
       const data = await res.json();
       if(!res.ok){
@@ -77,7 +78,7 @@ const DashProfile = () => {
     const formdataImg = new FormData();
     formdataImg.append('image', uploadProfileImage);
     try {
-        const res = await fetch('/backend/upload/upload_image', {
+        const res = await fetch(`${backendUrl}/upload/upload_image`, {
             method:"POST",
             headers:{ Accept:'application/json'},
             body:formdataImg
@@ -101,7 +102,7 @@ const DashProfile = () => {
   //pour se déconnecter
   const handleSignOut = async() =>{
     try {
-       const res = await fetch('/backend/auth/signout',{method : 'POST'});
+       const res = await fetch(`${backendUrl}/auth/signout`,{method : 'POST',credentials: 'include'});
        const data = await res.json();
 
        if(!res.ok){
@@ -134,8 +135,9 @@ const DashProfile = () => {
   const handleDeleteUser = async() =>{
     try {
       dispatch(deleteStart());
-      const res = await fetch(`/backend/auth/deleteUser/${currentUser._id}`,{
-        method : 'DELETE'
+      const res = await fetch(`${backendUrl}/auth/deleteUser/${currentUser._id}`,{
+        method : 'DELETE',
+        credentials: 'include',
       })
       const data = await res.json();
       if(!res.ok){

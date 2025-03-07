@@ -6,7 +6,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { fetchProjects,handleShowMoreProjects,fetchProjectsParticiped } from '../../../Redux/project/projectSlice.js'
 import Swal from 'sweetalert2'
 import {ToastContainer, toast} from 'react-toastify'
-import {Loader, Loader2} from "lucide-react"
+import backendUrl from '../../../utils/backendUrl.js'
 
 const DashProjet = () => {
 
@@ -26,11 +26,12 @@ const DashProjet = () => {
 
   const deleteTheProject = async(projectId) =>{ //fonction pour la suppression d'un projet
     try {
-      const res = await fetch(`/backend/projet/deleteProject/${projectId}`,{
+      const res = await fetch(`${backendUrl}/projet/deleteProject/${projectId}`,{
         method:"DELETE",
         headers:{
           Accept:"application/json"
-        }
+        },
+        credentials: 'include',
       })
       const data = await res.json();
       if(!res.ok){
@@ -123,11 +124,11 @@ const DashProjet = () => {
                     {
                       projects && projects.map((item,i) =>(
                         <tr key={i} className='h-14 hover:bg-[#c4c4c427] duration-100 border-b border-b-[#7c7b7b31]'>
-                          <td className='min-w-[120px] max-w-[200px] overflow-hidden' ><p className='line-clamp-2' >{item.projectName}</p></td>
+                          <td className='min-w-[120px] max-w-[200px] overflow-hidden' ><p className='line-clamp-2' >{item?.projectName}</p></td>
 
-                          <td className='min-w-[200px] max-w-[320px]' ><p className='line-clamp-3'>{item.projectDescription}</p></td>
-                          {typeProjects==="paticipated"&& <td className='text-blue-500 font-semibold' >{item.createur.name}</td>}
-                          <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{item.membres.map((item,i) =>(
+                          <td className='min-w-[200px] max-w-[320px]' ><p className='line-clamp-3'>{item?.projectDescription}</p></td>
+                          {typeProjects==="paticipated"&& <td className='text-blue-500 font-semibold' >{item.createur?.name}</td>}
+                          <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{item?.membres.map((item,i) =>(
                             <p key={i} >{item.name},</p>
                             ))}
                           </td>

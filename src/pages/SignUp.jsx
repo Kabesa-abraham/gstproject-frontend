@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import {signInFaillure,signInStart,signInSuccess} from '../Redux/user/userSlice.js'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom';
+import backendUrl from '../utils/backendUrl.js'
 
 const SignUp = () => {
 
@@ -36,12 +37,12 @@ const SignUp = () => {
         const formdataImg = new FormData();
         formdataImg.append('image', urluploadImg);
         try {
-            const res = await fetch('/backend/upload/upload_image', {
+            const res = await fetch(`${backendUrl}/upload/upload_image`, {
                 method:"POST",
                 headers:{
                     Accept:'application/json'
                 },
-                body:formdataImg
+                body:formdataImg,
             })
             const data = await res.json();
             if(!res.ok){
@@ -73,13 +74,14 @@ const SignUp = () => {
         e.preventDefault();
         try {
             dispatch(signInStart());
-            const res = await fetch('/backend/auth/signup', {
+            const res = await fetch(`${backendUrl}/auth/signup`, {
                 method:'POST',
                 headers:{
                     Accept:'application/json',
                     'Content-Type': 'application/json'
                 },
-                body:JSON.stringify(userData)
+                body:JSON.stringify(userData),
+                credentials: 'include',
             })
             const data = await res.json();
             if(!res.ok){
@@ -88,9 +90,10 @@ const SignUp = () => {
             if(res.ok){
                 dispatch(signInSuccess(data))
                 navigate('/')
+                console.log("signup dara",userData);
             } 
         } catch (error) {
-            dispatch(signInFaillure(error))
+            dispatch(signInFaillure(error.message))
         }
     }
 

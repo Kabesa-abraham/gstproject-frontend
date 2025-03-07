@@ -7,6 +7,7 @@ export default defineConfig({
     proxy:{
       '/backend':{
         target:'http://localhost:4000',
+        changeOrigin:true,
         secure:false
       }
     }

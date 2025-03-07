@@ -20,9 +20,6 @@ export default {
           "100%": { transform:"scale(1)", opacity:1 },
         }
       },
-      fontFamily:{
-        grechen: ['Grechen Fuemen', 'sans-serif'],
-      }
     },
   },
   plugins: [require('daisyui') , require('@tailwindcss/line-clamp'),require('tailwind-scrollbar-hide') ],

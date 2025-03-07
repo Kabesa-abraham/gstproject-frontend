@@ -10,6 +10,7 @@ import { signOutSuccess } from '../../../Redux/user/userSlice.js'
 import { useDispatch} from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {ChevronFirst, ChevronLast} from 'lucide-react'
+import backendUrl from '../../../utils/backendUrl.js'
 
 const SidebarContext = createContext() //pour le contexte du sidebar
 
@@ -24,7 +25,7 @@ const Sidebar = () => {
  
   const handleSignOut = async() =>{ //pour se déconnecter
     try {
-      await fetch('/backend/auth/signout',{method:'POST'});
+      await fetch(`${backendUrl}/auth/signout`,{method:'POST',credentials: 'include'});
       dispatch(signOutSuccess());
       navigate('/presentation');
     } catch (error) {console.log(error)}
@@ -52,7 +53,7 @@ const Sidebar = () => {
         <div className='p-4 pb-2 flex justify-between items-center mb-6' >
           <div className={` overflow-hidden transition-all ${expanded? "flex items-center gap-1 ":'hidden'} `} >
             <img src="/logo.png" alt="enterprise logo" className="w-12" />
-            <h3 className='font-grechen text-2xl text-white' >Oragon</h3>
+            <h3 className='text-2xl text-white' >Oragon</h3>
           </div>
           <button onClick={() => setExpanded(!expanded)} className='hidden lg:inline-block p-1.5 rounded-lg text-zinc-50' >
             {expanded ?<ChevronFirst size={20} /> : <ChevronLast size={20} /> }

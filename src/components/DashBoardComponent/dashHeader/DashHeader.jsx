@@ -8,6 +8,7 @@ import { TbLayoutDashboard } from 'react-icons/tb';
 import { FaCheckSquare, FaFolderOpen } from 'react-icons/fa';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
+import backendUrl from '../../../utils/backendUrl.js';
 
 const DashHeader = () => {
 
@@ -16,7 +17,7 @@ const DashHeader = () => {
     const navigate = useNavigate();
     const handleSignout = async() =>{ //pour se déconnecter
         try {
-           await fetch('/backend/auth/signout',{method:'POST'});
+           await fetch(`${backendUrl}/auth/signout`,{method:'POST',credentials: 'include'});
            dispatch(signOutSuccess());
            navigate('/presentation');
         } catch (error) {console.log(error)}

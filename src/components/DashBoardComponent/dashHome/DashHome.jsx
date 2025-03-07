@@ -8,6 +8,7 @@ import { GoProjectSymlink } from "react-icons/go";
 import { TbLayoutDashboard } from "react-icons/tb";
 import DashBoardChartTasks from '../dashboardChartTasks/DashBoardChartTasks';
 import {Link} from 'react-router-dom'
+import backendUrl from '../../../utils/backendUrl.js';
 
 const DashHome = () => {
 
@@ -19,11 +20,10 @@ const DashHome = () => {
   const [dataTasks,setDataTasks] = useState({tasksByMonth:[],completedTasksByProject:[]}) //pour mes graphiques
   const [recentTasks,setRecentTasks] = useState([]) //pour contenir les tâches récentes
 
-  console.log("recentProjet",recentTasks)
   useEffect(() =>{
     const fetchProjects = async() =>{
       try {
-        const res = await fetch(`/backend/projet/fetchProject`);
+        const res = await fetch(`${backendUrl}/projet/fetchProject`,{credentials: 'include',});
         const data = await res.json();
         if(res.ok){
           setTotalProjectsCreated(data.totalProjectsCreated)
@@ -36,10 +36,9 @@ const DashHome = () => {
 
     const fetchTasks = async() =>{
       try {
-        const res = await fetch(`/backend/task/fetchTaskforProjectsMember`);
+        const res = await fetch(`${backendUrl}/task/fetchTaskforProjectsMember`,{credentials: 'include',});
         const data = await res.json();
         if(res.ok){
-          console.log(data)
           setTotalTasksAfaire(data.taskStats.aFaire);
           setTotalTasksEncours(data.taskStats.EnCours);
           setTotalTasksTermine(data.taskStats.Termine);
@@ -51,7 +50,7 @@ const DashHome = () => {
 
     const handleFetchSomeTasks = async() =>{ //pour mes graphiques
       try {
-        const res = await fetch(`/backend/task/tasksStats`);
+        const res = await fetch(`${backendUrl}/task/tasksStats`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){ 
@@ -64,7 +63,7 @@ const DashHome = () => {
 
     const fetchRecentTasks = async() =>{
       try {
-        const res = await fetch(`/backend/task/fetchTaskAndGet?limit=6`);
+        const res = await fetch(`${backendUrl}/task/fetchTaskAndGet?limit=6`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){

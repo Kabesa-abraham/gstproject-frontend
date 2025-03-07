@@ -53,7 +53,7 @@ const Footer = () => {
                     <div className='flex flex-col gap-4' >
                         {
                             val.text.map((suVal,i) =>(
-                                <p key={i} className='text-[#ffffff50]' >{suVal.list}</p>
+                                <a href={val.text[i].link} key={i} ><p  className='text-[#ffffff50]' >{suVal.list}</p></a>
                             ))
                         }
                     </div>
@@ -63,7 +63,7 @@ const Footer = () => {
 
             </div>
             <div className=' text-xs lg:text-sm text-center text-gray-400 my-3'>
-              <span>© 2024 Oragon. Conçue Par KabesaYebula.</span>
+              <span>© {new Date().getFullYear()} Oragon. Conçue Par KabesaYebula.</span>
             </div>
           </footer>
           

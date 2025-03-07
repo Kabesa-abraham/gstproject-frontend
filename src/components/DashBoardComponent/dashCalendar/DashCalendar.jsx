@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import Select from 'react-select';
+import backendUrl from '../../../utils/backendUrl.js';
 
 const theStyle = { //pour styliser le Select
   control: (provided) => ({
@@ -28,7 +29,7 @@ const DashCalendar = () => {
 
   const fetchTaskes = async()=>{  //va fetch les tâches des projets dont je suis membre
     try {
-      const res = await fetch("/backend/task/fetchTaskforProjectsMember");
+      const res = await fetch(`${backendUrl}/task/fetchTaskforProjectsMember`,{credentials: 'include',});
       const data = await res.json();
       if(res.ok){
         setTaskes(data.taskesAssigned);
@@ -40,7 +41,7 @@ const DashCalendar = () => {
   
   const fetchSomeProjects = async(searchValue) =>{ //pour fetch les projects dont je suis membre
     try {
-      const res = await fetch(`/backend/projet/fetchProject?searchTerm=${searchValue}`);
+      const res = await fetch(`${backendUrl}/projet/fetchProject?searchTerm=${searchValue}`,{credentials: 'include',});
       const data = await res.json();
       if(!res.ok){console.log(data.message)}
       if(res.ok){
@@ -56,7 +57,7 @@ const DashCalendar = () => {
   const takeTaskesOfProjectFinded = async() =>{ //pour prendre les tâches d'un projet spécifique dont je suis membre
     if(!projectSelected){ fetchTaskes() } //si pas de projectSelected alors on remet tout les tâches des projets dont je suis membre
     try {
-      const res = await fetch(`/backend/task/fetchTaskesForProjectWithoutLimit/${projectSelected?.value}`);
+      const res = await fetch(`${backendUrl}/task/fetchTaskesForProjectWithoutLimit/${projectSelected?.value}`,{credentials: 'include',});
       const data = await res.json();
       if(!res.ok){ console.log(data.message)};
       if(res.ok){ setTaskes(data) }
@@ -87,7 +88,7 @@ const DashCalendar = () => {
   return (
     <div className='w-full h-screen overflow-hidden mx-auto px-3 md:px-5 my-3 flex flex-col gap-5' >
       <div className='flex items-center justify-between gap-5 w-full z-50 flex-wrap' >
-        <p className='text-xs sm:text-sm md:text-lg text-blue-500 font-semibold' >Mon Calendrier</p>
+        <p className='text-sm sm:text-xl md:text-3xl font-medium text-[#3f84c4]' >Mon Calendrier</p>
 
         <div className='flex items-center flex-wrap gap-2' >
           <Select styles={theStyle} placeholder="Rechercher vos projets"

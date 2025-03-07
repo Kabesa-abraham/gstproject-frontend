@@ -6,6 +6,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import {handleFetchTheTask,updateTaskFailed,updateTaskStart,updateTaskSuccess } from '../Redux/task/taskSlice.js'
 import {ToastContainer,toast} from 'react-toastify'
 import { MdAddAlert } from 'react-icons/md'
+import backendUrl from '../utils/backendUrl.js'
 
 const UpdateTache = () => {
     const {tacheId} = useParams(); //l'id du tâche
@@ -35,12 +36,13 @@ const UpdateTache = () => {
         }
         try {
             dispatch(updateTaskStart())
-            const res = await fetch(`/backend/task/updateTask/${tacheId}`,{
+            const res = await fetch(`${backendUrl}/task/updateTask/${tacheId}`,{
                 method:"PUT",
                 headers:{
                     "Content-Type":"application/json"
                 },
-                body:JSON.stringify(taskData)
+                body:JSON.stringify(taskData),
+                credentials:"include"
             })
             const data = await res.json();
             if(!res.ok){
@@ -63,7 +65,7 @@ const UpdateTache = () => {
     const [allProject,setAllProject] = useState([]);
     const fetchProject = async(query = "") =>{
         try {
-            const res = await fetch(`/backend/projet/fetchProject?searchTerm=${query}&limit=7`)
+            const res = await fetch(`${backendUrl}/projet/fetchProject?searchTerm=${query}&limit=7`,{credentials: 'include',})
             const data = await res.json();
             if(res.ok){
                 const formattedData = data.project.map((item) =>({
@@ -149,7 +151,7 @@ const UpdateTache = () => {
                 </button>
 
                 { error&& ( <p className='alert alert-error text-white flex items-center gap-3 p-1 px-3 text-sm rounded-full' >
-                            <MdAddAlert className='text-lg' /> {error}</p> )}
+                            <MdAddAlert className='text-lg' /> {error.message}</p> )}
             </form>
         </div>
         <ToastContainer/>

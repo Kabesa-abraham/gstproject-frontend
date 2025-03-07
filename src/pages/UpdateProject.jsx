@@ -7,6 +7,7 @@ import { updateProjectFailed,updateProjectStart,updateProjectSuccess } from '../
 import { MdAddAlert, MdClose } from 'react-icons/md'
 import {ToastContainer,toast} from 'react-toastify'
 import Select from 'react-select'
+import backendUrl from '../utils/backendUrl.js'
 
 const UpdateProject = () => {
     const {projectId} = useParams();
@@ -27,13 +28,14 @@ const UpdateProject = () => {
     const handleUpdateProject = async() =>{//pour mettre à jour le projet
         try {
             dispatch(updateProjectStart())
-            const res = await fetch(`/backend/projet/updateProject/${projectId}`,{
+            const res = await fetch(`${backendUrl}/projet/updateProject/${projectId}`,{
                 method:'PUT',
                 headers:{
                     Accept:"application/json",
                     "Content-Type":'application/json'
                 },
-                body:JSON.stringify(dataProject)
+                body:JSON.stringify(dataProject),
+                credentials: 'include',
             })
             const data = await res.json();
             if(!res.ok){
@@ -57,7 +59,7 @@ const UpdateProject = () => {
     const [selectedUser,setSelectedUser] = useState(null);
     const fetchUsers = async(query = "") =>{ //pour fetch tout les users de la bdd
         try {
-            const res = await fetch(`/backend/auth/allUser?searchTerm=${query}&limit=7`)
+            const res = await fetch(`${backendUrl}/auth/allUser?searchTerm=${query}&limit=7`,{credentials: 'include',})
             const data = await res.json();
             if(res.ok){
                 const formattedData = data.map((item) =>({
@@ -87,12 +89,13 @@ const UpdateProject = () => {
         }
 
         try {
-            const res = await fetch(`/backend/projet/addMember/${projectId}`,{
+            const res = await fetch(`${backendUrl}/projet/addMember/${projectId}`,{
                 method:'POST',
                 headers:{
                     "Content-Type":"application/json"
                 },
-                body:JSON.stringify({"email":selectedUser.label})
+                body:JSON.stringify({"email":selectedUser.label}),
+                credentials: 'include',
             })
             const data = await res.json();
             if(!res.ok){
@@ -117,9 +120,10 @@ const UpdateProject = () => {
 
     const deleteTheMember = async(projectId,memberId) =>{
         try {
-            const res = await fetch(`/backend/projet/deleteMember/${projectId}/${memberId}`,{
+            const res = await fetch(`${backendUrl}/projet/deleteMember/${projectId}/${memberId}`,{
                 method:"POST",
-                headers:{Accept:"application/json"}
+                headers:{Accept:"application/json"},
+                credentials: 'include',
             })
             const data = await res.json()
             if(!res.ok){console.log(data.message)}

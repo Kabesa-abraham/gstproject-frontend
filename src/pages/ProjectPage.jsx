@@ -6,6 +6,7 @@ import { fetchTheProject } from '../Redux/project/projectSlice.js'
 import {FaUser} from 'react-icons/fa'
 import userIcon from '../components/Assets/img13.png'
 import emptyboxIcon from '../components/Assets/emptybox.png'
+import backendUrl from '../utils/backendUrl.js'
 
 const ProjectPage = () => {
   const {projectId} = useParams();
@@ -24,11 +25,10 @@ const ProjectPage = () => {
 
   const fetchAllTaskByProject = async(projectId)=>{ //pour fetch tout les tâches d'un projet 
     try {
-        const res = await fetch(`/backend/task/fetchTaskesForProject?projectId=${projectId}`);
+        const res = await fetch(`${backendUrl}/task/fetchTaskesForProject?projectId=${projectId}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){
-          console.log("dkdk",data.taskesWithOutAssigneA)
           setSomeTaskes(data.taskesWithOutAssigneA) 
           if(data.taskesWithOutAssigneA.length < 10){ setShowMore(false) }else{ setShowMore(true) }
         }
@@ -38,7 +38,7 @@ const ProjectPage = () => {
 
   const ShowMoreTaskByProject = async(projectId)=>{
     try {
-        const res = await fetch(`/backend/task/fetchTaskesForProject?projectId=${projectId}&startIndex=${someTaskes.length}`);
+        const res = await fetch(`${backendUrl}/task/fetchTaskesForProject?projectId=${projectId}&startIndex=${someTaskes.length}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){

@@ -7,6 +7,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import { addTaskStart,addTaskFailed,addTaskSuccess } from '../Redux/task/taskSlice.js'
 import {ToastContainer,toast} from 'react-toastify'
 import { MdAddAlert } from 'react-icons/md'
+import backendUrl from '../utils/backendUrl.js'
 
 const AddTache = () => {
 
@@ -31,7 +32,7 @@ const AddTache = () => {
     const [allProject,setAllProject] = useState([]);
     const fetchProject = async(query = "") =>{
         try {
-            const res = await fetch(`/backend/projet/fetchProject?searchTerm=${query}&limit=7`)
+            const res = await fetch(`${backendUrl}/projet/fetchProject?searchTerm=${query}&limit=7`,{credentials: 'include',})
             const data = await res.json();
             if(res.ok){
                 const formattedData = data.project.map((item) =>({
@@ -51,13 +52,14 @@ const AddTache = () => {
         try {
             distatch(addTaskStart())
             
-            const res = await fetch('/backend/task/createTask',{
+            const res = await fetch(`${backendUrl}/task/createTask`,{
                 method:'POST',
                 headers:{
                     Accept:"application/json",
                     "Content-Type":'application/json'
                 },
-                body:JSON.stringify(taskData)
+                body:JSON.stringify(taskData),
+                credentials: 'include',
             })
             const data = await res.json();
             if(!res.ok){

@@ -20,7 +20,7 @@ const Home = () => {
     },[])
 
   return (
-    <div className='w-full min-h-screen bg-black' >
+    <div className='w-full min-h-screen bg-black' id='#' >
         <div className='w-full min-h-screen homeContainer' >
             <div className='max-w-7xl min-h-screen px-3 md:px-10 mx-auto flex justify-between items-center md:gap-10 ' >
                 <div className='text-xl text-white flex flex-col gap-6' >

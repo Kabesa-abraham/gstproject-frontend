@@ -10,7 +10,7 @@ const TachePage = () => {
 
     const {tacheId} = useParams();
     const dispatch = useDispatch();
-    const {loading,error,theTask} = useSelector(state => state.task);
+    const {theTask} = useSelector(state => state.task);
 
     useEffect(() =>{
         dispatch(handleFetchTheTask(tacheId))

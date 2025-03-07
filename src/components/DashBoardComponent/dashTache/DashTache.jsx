@@ -7,7 +7,7 @@ import Select from 'react-select'
 import { handleShowMoreTaskes } from '../../../Redux/task/taskSlice.js'
 import Swal from "sweetalert2"
 import {ToastContainer,toast} from "react-toastify"
-import {FaSearch} from 'react-icons/fa'
+import backendUrl from '../../../utils/backendUrl.js'
 
 const theStyle = { //pour styliser le Select
   control: (provided) => ({
@@ -43,7 +43,7 @@ const DashTache = () => {
   //pour rechercher un projet grâce à Select de react-select
   const fetchProjects = async(query = "") =>{
     try {
-      const res = await fetch(`/backend/projet/fetchProject?searchTerm=${query}`)
+      const res = await fetch(`${backendUrl}/projet/fetchProject?searchTerm=${query}`,{credentials: 'include',})
       const data = await res.json();
       if(res.ok){
         const formattedData = data.project.map((item) =>({
@@ -60,11 +60,12 @@ const DashTache = () => {
   //pour supprimer une tâche
   const deleteTache = async(taskId)=>{
     try {
-      const res = await fetch(`/backend/task/deleteTask/${taskId}`,{
+      const res = await fetch(`${backendUrl}/task/deleteTask/${taskId}`,{
         method:"DELETE",
         headers:{
           Accept:"application/json"
-        }
+        },
+        credentials: 'include',
       })
       const data = await res.json();
       if(!res.ok){
@@ -179,10 +180,10 @@ const DashTache = () => {
                   {
                     tasks && tasks.map((item,i) =>(
                       <tr key={i} className='h-14 hover:bg-[#c4c4c427] duration-100 border-b border-b-[#7c7b7b31]'>
-                        <td className='min-w-[120px] max-w-[200px] overflow-hidden' >{item.taskName}</td>
-                        <td className='min-w-[200px] max-w-[320px]' ><p className='line-clamp-3'>{item.projectId.projectName}</p></td>
-                        <td className='font-semibold text-yellow-700' >{item.status }</td>
-                        <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{new Date(item.deadLine).toLocaleDateString()}</td>
+                        <td className='min-w-[120px] max-w-[200px] overflow-hidden' >{item?.taskName}</td>
+                        <td className='min-w-[200px] max-w-[320px]' ><p className='line-clamp-3'>{item?.projectId.projectName}</p></td>
+                        <td className='font-semibold text-yellow-700' >{item?.status }</td>
+                        <td className='flex flex-wrap gap-2 items-center min-w-[150px] max-w-lg' >{new Date(item?.deadLine).toLocaleDateString()}</td>
                         <td>
                           <div className='flex gap-3 lg:gap-5 text-sm lg:text-xl items-center' >
                             <Link to={`updateTache/${item._id}`} ><AiFillEdit className='cursor-pointer text-blue-600' /></Link>

@@ -1,10 +1,11 @@
 export const footer = [
     {
       title: "LAYOUTS",
-      text: [{ list: "Page d'acceuil", link:'/' }, 
-             { list: "Page Apropo", link:'/about' }, 
-             { list: "Page Propriété", link:'/blog' }, 
-             { list: "Page Contacte", link:'/contact' }]
+      text: [{ list: "Page d'acceuil", link:'#' }, 
+             { list: "Page Apropo", link:'#apropo' }, 
+             { list: "Page fonctionnalité", link:'#fonctionnalite' },
+             {list:"Page Tarif", link:'#tarification'}, 
+             { list: "Page Contacte", link:'#contact' }]
     },
     {
       title: "TOUT LES SECTIONS",

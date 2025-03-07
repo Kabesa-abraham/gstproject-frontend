@@ -6,10 +6,10 @@ import { HiEye, HiEyeOff, HiOutlineMailOpen, HiX } from 'react-icons/hi'
 import { MdAddAlert } from 'react-icons/md'
 import { FaArrowLeft, FaKey } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import {motion} from 'framer-motion'
 import { signInFaillure,signInStart,signInSuccess } from '../Redux/user/userSlice.js'
 import {useDispatch,useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import backendUrl from '../utils/backendUrl.js'
 
 
 const SignIn = () => {
@@ -34,13 +34,14 @@ const SignIn = () => {
         e.preventDefault();
         try {
             dispatch(signInStart());
-            const res = await fetch('/backend/auth/signin', {
+            const res = await fetch(`${backendUrl}/auth/signin`, {
                 method:'POST',
                 headers:{
                     Accept: 'application/json',
                     'Content-Type':'application/json'
                 },
-                body:JSON.stringify(userData)
+                body:JSON.stringify(userData),
+                credentials: 'include',
             })
             const data = await res.json();
             if(!res.ok){ dispatch(signInFaillure(data.message))}
@@ -49,7 +50,7 @@ const SignIn = () => {
                 navigate('/');
             }
         } catch (error) {
-            dispatch(signInFaillure(error))
+            dispatch(signInFaillure(error.message))
         }
     }
 
@@ -90,7 +91,7 @@ const SignIn = () => {
 
                     <button type='submit' className='w-full md:w-[65%] mx-auto bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium px-10 py-2 rounded-full
                              text-xs md:text-sm hover:ring-4 ring-blue-100 duration-150 ' disabled={loading===true&&true} >
-                        { loading===true? 'En attente' : 'Connection' }
+                        { loading===true? 'En attente...' : 'Connection' }
                     </button>
 
                     { error&& (

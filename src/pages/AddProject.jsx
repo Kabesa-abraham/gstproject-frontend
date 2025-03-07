@@ -6,6 +6,7 @@ import { HiX } from 'react-icons/hi'
 import { MdAddAlert } from 'react-icons/md'
  import {ToastContainer,toast} from  'react-toastify'
  import 'react-toastify/dist/ReactToastify.css';
+ import backendUrl from '../utils/backendUrl.js'
 
 const AddProject = () => {
 
@@ -16,7 +17,6 @@ const AddProject = () => {
   const handleChange = (e) =>{
     setProjectData({...projectData, [e.target.name]: e.target.value})
   }
-  console.log(projectData)
 
   const [error,setError] = useState(null);
   const [loading,setLoading] = useState(false);
@@ -33,12 +33,13 @@ const AddProject = () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch("/backend/projet/addProject",{
+      const res = await fetch(`${backendUrl}/projet/addProject`,{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
         },
-        body:JSON.stringify(projectData)
+        body:JSON.stringify(projectData),
+        credentials: 'include',
       })
       const data = await res.json();
       if(!res.ok){

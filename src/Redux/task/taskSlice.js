@@ -1,4 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
+import backendUrl from '../../utils/backendUrl';
 
 const initialState = {
     tasks: [],
@@ -10,7 +11,7 @@ const initialState = {
 
 export const fetchTaskes = createAsyncThunk('taskes/fetchTaskes' , async({searchValue,status,projectId = ""}) =>{//679f109f1048390951b0123f
     try {
-        const res = await fetch(`/backend/task/fetchTaskAndGet?searchTerm=${searchValue}&status=${status}&projectId=${projectId}`);
+        const res = await fetch(`${backendUrl}/task/fetchTaskAndGet?searchTerm=${searchValue}&status=${status}&projectId=${projectId}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){return data.task}
@@ -20,7 +21,7 @@ export const fetchTaskes = createAsyncThunk('taskes/fetchTaskes' , async({search
 })
 export const handleShowMoreTaskes = createAsyncThunk('taskes/handleShowMoreTaskes' , async(startIndex) =>{
     try {
-        const res = await fetch(`/backend/task/fetchTaskAndGet?startIndex=${startIndex}`);
+        const res = await fetch(`${backendUrl}/task/fetchTaskAndGet?startIndex=${startIndex}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){return data.task}
@@ -31,7 +32,7 @@ export const handleShowMoreTaskes = createAsyncThunk('taskes/handleShowMoreTaske
 
 export const handleFetchTheTask = createAsyncThunk('taskes/handleFetchTheTask' , async(taskId) =>{
     try {
-        const res = await fetch(`/backend/task/fetchTheTask/${taskId}`);
+        const res = await fetch(`${backendUrl}/task/fetchTheTask/${taskId}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){return data}

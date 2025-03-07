@@ -1,4 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import backendUrl from "../../utils/backendUrl";
 
 const initialState = {
     projects:[],
@@ -11,7 +12,7 @@ const initialState = {
 //mes projets crée
 export const fetchProjects = createAsyncThunk('projects/fetchProjects' , async(searchValue) =>{
     try {
-        const res = await fetch(`/backend/projet/fetchProject?searchTerm=${searchValue}`);
+        const res = await fetch(`${backendUrl}/projet/fetchProject?searchTerm=${searchValue}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){return data.project}
@@ -21,7 +22,7 @@ export const fetchProjects = createAsyncThunk('projects/fetchProjects' , async(s
 } )
 export const handleShowMoreProjects = createAsyncThunk('projects/handleShowMoreProjects' , async(startIndex) =>{
     try {
-        const res = await fetch(`/backend/projet/fetchProject?startIndex=${startIndex}`);
+        const res = await fetch(`${backendUrl}/projet/fetchProject?startIndex=${startIndex}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){ return data.project }
@@ -33,7 +34,7 @@ export const handleShowMoreProjects = createAsyncThunk('projects/handleShowMoreP
 //les projets donc je participe
 export const fetchProjectsParticiped = createAsyncThunk('projects/fetchProjectsParticiped' , async(searchValue) =>{
     try {
-        const res = await fetch(`/backend/projet/fetchProject?searchTerm=${searchValue}`);
+        const res = await fetch(`${backendUrl}/projet/fetchProject?searchTerm=${searchValue}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){return data.projectParticipated}
@@ -44,7 +45,7 @@ export const fetchProjectsParticiped = createAsyncThunk('projects/fetchProjectsP
 
 export const fetchTheProject = createAsyncThunk('projects/fetchTheProject' , async(projectId) =>{
     try {
-        const res = await fetch(`/backend/projet/getTheProject/${projectId}`);
+        const res = await fetch(`${backendUrl}/projet/getTheProject/${projectId}`,{credentials: 'include',});
         const data = await res.json();
         if(!res.ok){console.log(data.message)}
         if(res.ok){return data}
