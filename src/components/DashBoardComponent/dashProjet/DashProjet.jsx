@@ -69,18 +69,18 @@ const DashProjet = () => {
     <div className=' w-full mx-auto overflow-hidden' >
       <div className={`max-w-7xl mx-auto px-2 lg:px-5 py-2 md:py-4 flex flex-col gap-3`} >
 
-        <div className='flex items-center justify-between gap-5'>
+        <div className='flex items-center justify-between gap-2 sm:gap-5'>
           <h2 className='text-sm sm:text-xl md:text-3xl font-medium text-[#3f84c4]' >Mes Projets</h2>
 
           <div className='flex items-center gap-2' >
             <Link to={"addProject"} ><button  className={`min-w-[105px] px-2 py-2 md:py-3 flex items-center gap-1 hover:bg-[#3974ac] text-[#3974ac] font-medium hover:text-white transition-all
                 border-[2px] border-[#3974ac] text-xs md:text-sm rounded-lg `} > 
-              <AiOutlinePlusCircle className='text-sm md:text-lg' />Créer Projet
+              <AiOutlinePlusCircle className='text-xs md:text-lg' />Créer Projet
             </button></Link>
 
             <Link to={"../tache/AddTache"} ><button  className={`min-w-[125px] px-2 py-2 md:py-3 flex items-center gap-1 hover:bg-[#633cac] text-[#633cac] hover:text-white transition-all
                 border-[2px] border-[#633cac] text-xs md:text-sm font-medium rounded-lg `} > 
-              <MdAdd className='text-sm md:text-lg' />Créer une Tâche
+              <MdAdd className='text-xs md:text-lg' />Créer une Tâche
             </button></Link>
           </div>
         </div>
@@ -104,13 +104,13 @@ const DashProjet = () => {
         </div>
 
           { loading === true? (
-            <span className='w-full text-center text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
+            <span className='w-full text-center text-sm md:text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
             ) : 
             <div className='table-auto overflow-x-scroll md:overflow-x-hidden  rounded-md ' >
               <table className="table overflow-x-scroll">
                 
                   <thead className='border-b-[2px] text-zinc-700 bg-[#388ddd3d]' >
-                    <tr className={`text-sm `} >
+                    <tr className={`text-xs sm:text-sm `} >
                       <th>Nom Projet</th>
                       <th>Description</th>
                       {typeProjects==="paticipated"&& <th>Créateur</th>}
@@ -118,7 +118,7 @@ const DashProjet = () => {
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody className='text-sm' >
+                  <tbody className='text-xs sm:text-sm' >
               
                 
                     {

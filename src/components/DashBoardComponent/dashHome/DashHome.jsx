@@ -98,9 +98,9 @@ const DashHome = () => {
 
       <div className='w-full md:px-4' >
         <div className={`bg-white w-full overflow-x-auto flex flex-col md:m-auto shadow-md rounded-md`}>
-          <div className='flex justify-between p-3 text-sm md:text-lg font-semibold' >
+          <div className='flex justify-between p-3 text-xs sm:text-sm md:text-lg font-semibold' >
             <h1 className='text-center p-2' >Tâches Récents de mes Projets</h1>
-            <Link to={'tache'} ><button className={`btn bg-transparent hover:bg-gradient-to-r from-indigo-600 to-pink-600 hover:text-white hover:border-none transition-all px-0 md:px-5 lg:px-10
+            <Link to={'tache'} ><button className={`btn bg-transparent hover:bg-gradient-to-r from-indigo-600 to-pink-600 hover:text-white hover:border-none transition-all px-2 md:px-5 lg:px-10
                 border-[2px] border-pink-600 text-xs`}>
                   Voir Tout
             </button></Link>
@@ -109,26 +109,26 @@ const DashHome = () => {
           <table className="table">
            
             <thead className='bg-[#7d7d7f1d]' >
-              <tr className={`text-sm`} >
+              <tr className={`text-xs sm:text-sm`} >
                 <th>Nom tâches</th>
                 <th>Status</th>
                 <th>Project Assigné</th>
                 <th>Detail</th>
               </tr>
             </thead>
-            <tbody>
-             
-            {
-              recentTasks && recentTasks.map((item,i) =>(
-               <tr key={i}  className={`hover:bg-[#cdcbcb63] transition-all`} >
-                
-                  <td>{item.taskName}</td>
-                  <td className={`${item.status==="A faire"?"text-green-500" : item.status==="En cours"? "text-yellow-600" :"text-red-500"} font-semibold`} >{item.status}</td>
-                  <td>{item.projectId?.projectName}</td>
-                  <td className='pl-3 md:pl-7' > <Link to={`tache/theTask/${item?._id}`} ><FaEye/></Link></td>
-                </tr>
-              ))
-            }      
+
+            <tbody> 
+              {
+                recentTasks && recentTasks.map((item,i) =>(
+                <tr key={i}  className={`hover:bg-[#cdcbcb63] transition-all text-xs sm:text-sm md:text-lg `} >
+                  
+                    <td>{item.taskName}</td>
+                    <td className={`${item.status==="A faire"?"text-green-500" : item.status==="En cours"? "text-yellow-600" :"text-red-500"} font-semibold`} >{item.status}</td>
+                    <td>{item.projectId?.projectName}</td>
+                    <td className='pl-3 md:pl-7' > <Link to={`tache/theTask/${item?._id}`} ><FaEye/></Link></td>
+                  </tr>
+                ))
+              }      
             </tbody>
           </table>
         </div>

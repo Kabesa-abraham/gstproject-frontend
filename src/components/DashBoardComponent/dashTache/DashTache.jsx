@@ -104,7 +104,7 @@ const DashTache = () => {
           <h2 className=' text-sm sm:text-xl md:text-3xl font-medium text-[#3f84c4]' >Mes Tâches</h2>
           <Link to={'addTache'} ><button  className={`min-w-[125px] px-2 py-2 md:py-3 flex items-center gap-1 hover:bg-[#633cac] text-[#633cac] hover:text-white transition-all
                 border-[2px] border-[#633cac] text-xs md:text-sm font-medium rounded-lg`} > 
-            <AiOutlinePlusCircle className='text-lg' />Créer Une Tâche
+            <AiOutlinePlusCircle className='text-sm sm:text-lg' />Créer Une Tâche
           </button></Link>
         </div>
 
@@ -160,13 +160,13 @@ const DashTache = () => {
         </div>
 
         { loading === true? (
-          <span className='w-full text-center text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
+          <span className='w-full text-center text-sm sm:text-lg font-bold mt-10 text-zinc-400' >Chargement...</span>
           ) : 
           <div className='table-auto overflow-x-scroll md:overflow-x-hidden rounded-md' >
             <table className="table">
                 {/* head */}
                 <thead className='border-b-[2px] text-zinc-700 bg-[#388ddd3d]' >
-                  <tr className={`text-sm `} >
+                  <tr className={`text-xs sm:text-sm `} >
                     <th>Tâche</th>
                     <th>Projet Assigné</th>
                     <th>Status</th>
@@ -174,7 +174,7 @@ const DashTache = () => {
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody className='text-sm' >
+                <tbody className='text-xs sm:text-sm' >
                   {/* row  */}
 
                   {

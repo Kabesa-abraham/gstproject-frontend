@@ -80,10 +80,10 @@ const DashHeader = () => {
 export const SidebarItemHeader = ({icon,text,Style,lien}) => {
   return(
     <Link to={lien} >
-        <li className={`w-full flex items-center gap-3 text-black py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors `} 
+        <li className={`w-full flex items-center gap-3  py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors `} 
             style={Style}>
             {icon}
-            <span className= {`text-black`} >{text}</span>
+            <span className= {``} >{text}</span>
         </li> 
     </Link>
   )
